@@ -52,6 +52,13 @@ int main() {
     int k = cnt;
     kthLargest(root, k, ans);
     if (ans != -1) cout << ans << '\n';
+    // Clean up allocated nodes to avoid memory leak detection
+    std::function<void(Node*)> deleteTree = [&](Node* node) {
+        if (!node) return;
+        deleteTree(node->left);
+        deleteTree(node->right);
+        delete node;
+    };
+    deleteTree(root);
     return 0;
 }
-
